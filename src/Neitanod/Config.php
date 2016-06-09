@@ -48,6 +48,7 @@ class Config {
 
   public function load( $file = null ){
     $loaded = file_exists($file)?json_decode(file_get_contents($file), true):array();
+    if(is_null($loaded)) throw new \Exception("Could not parse config file: ".$file);
     $this->combined = $this->array_merge_recursive_distinct($this->combined, $loaded);
     $this->refreshCombined();
   }
@@ -55,11 +56,13 @@ class Config {
   public function loadLocal( $file = null ){
     $this->local_file = $file;
     $this->local = file_exists($file)?json_decode(file_get_contents($file), true):array();
+    if(is_null($this->local)) throw new \Exception("Could not parse config file: ".$file);
     $this->refreshCombined();
   }
 
   public function loadImmutable( $file = null ){
     $loaded = file_exists($file)?json_decode(file_get_contents($file), true):array();
+    if(is_null($loaded)) throw new \Exception("Could not parse config file: ".$file);
     $this->immutable_combined = $this->array_merge_recursive_distinct($this->immutable_combined, $loaded);
     $this->refreshCombined();
   }
