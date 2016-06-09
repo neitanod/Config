@@ -49,9 +49,7 @@ class Config {
   public function load( $file = null ){
     $loaded = file_exists($file)?json_decode(file_get_contents($file), true):array();
     $this->combined = static::array_merge_recursive_distinct($this->combined, $loaded);
-
-    $this->all_combined = static::array_merge_recursive_distinct($this->combined, $this->local);
-    $this->all_combined = static::array_merge_recursive_distinct($this->all_combined, $this->immutable_combined);
+    $this->refreshCombined();
   }
 
   public function loadLocal( $file = null ){
