@@ -1,0 +1,20 @@
+{
+    "name": "neitanod/config",
+    "homepage": "https://github.com/neitanod/Config",
+    "type": "library",
+    "description": "Minimalistic PHP Class 'Config' that handles hierarchical configuration files in JSON format.",
+    "require": {
+        "php": ">=5.5.0"
+    },
+    "authors": [
+        {
+            "name":  "Sebastián Grignoli",
+            "email": "grignoli@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Neitanod\\": "src/"
+        }
+    }
+}
