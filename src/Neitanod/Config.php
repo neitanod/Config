@@ -48,7 +48,7 @@ class Config {
 
   public function load( $file = null ){
     $loaded = file_exists($file)?json_decode(file_get_contents($file), true):array();
-    $this->combined = static::array_merge_recursive_distinct($this->combined, $loaded);
+    $this->combined = $this->array_merge_recursive_distinct($this->combined, $loaded);
     $this->refreshCombined();
   }
 
@@ -60,17 +60,17 @@ class Config {
 
   public function loadImmutable( $file = null ){
     $loaded = file_exists($file)?json_decode(file_get_contents($file), true):array();
-    $this->immutable_combined = static::array_merge_recursive_distinct($this->immutable_combined, $loaded);
+    $this->immutable_combined = $this->array_merge_recursive_distinct($this->immutable_combined, $loaded);
     $this->refreshCombined();
   }
 
   protected function refreshCombined(){
-    $this->all_combined = static::array_merge_recursive_distinct($this->combined, $this->local);
-    $this->all_combined = static::array_merge_recursive_distinct($this->all_combined, $this->immutable_combined);
+    $this->all_combined = $this->array_merge_recursive_distinct($this->combined, $this->local);
+    $this->all_combined = $this->array_merge_recursive_distinct($this->all_combined, $this->immutable_combined);
   }
 
   public function get($path, $default = null){
-    $value = static::getByPath($this->all_combined, $path);
+    $value = $this->getByPath($this->all_combined, $path);
     if(!is_null($value)) return $value;
 
     return $default;
@@ -105,7 +105,7 @@ class Config {
   }
 
   public function set($path, $value){
-    static::setByPath($this->local, $path, $value);
+    $this->setByPath($this->local, $path, $value);
     $this->refreshCombined();
   }
 
@@ -121,7 +121,7 @@ class Config {
     {
       if ( is_array ( $value ) && isset ( $merged [$key] ) && is_array ( $merged [$key] ) )
       {
-        $merged [$key] = static::array_merge_recursive_distinct ( $merged [$key], $value );
+        $merged [$key] = $this->array_merge_recursive_distinct ( $merged [$key], $value );
       }
       else
       {
