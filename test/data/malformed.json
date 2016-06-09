@@ -1,0 +1,3 @@
+{
+  "Test": "Trailing comma generates a parse error",
+}

@@ -1,0 +1,4 @@
+{
+    "key_that_exists_in_both_global": "loaded_from_second_global",
+    "key_that_exists_both_in_local_and_in_immutable": "loaded_from_local"
+}

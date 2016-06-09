@@ -1,0 +1,7 @@
+{
+    "key_that_exists_both_in_global_and_in_immutable": "loaded_from_immutable",
+    "key_that_exists_in_both_immutable": "loaded_from_first_immutable",
+    "key_that_exists_both_in_local_and_in_immutable": "loaded_from_immutable",
+    "key_that_exists_in_immutable": "loaded_from_immutable"
+}
+

@@ -1,0 +1,4 @@
+{
+    "key_that_exists_both_in_global_and_in_local": "loaded_from_local"
+}
+
