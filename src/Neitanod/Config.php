@@ -94,6 +94,10 @@ class Config {
     return $this->all_combined;
   }
 
+  public function getLocalFile(){
+    return $this->local_file;
+  }
+
   protected function setByPath(&$arr, $path, $value, $separator='.') {
     $keys = explode($separator, $path);
     foreach ($keys as $key) {
