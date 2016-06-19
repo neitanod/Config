@@ -46,23 +46,35 @@ class Config {
   protected $all_combined        = [];
   protected $local_file          = null;
 
-  public function load( $file = null ){
-    $loaded = file_exists($file)?json_decode(file_get_contents($file), true):array();
-    if(is_null($loaded)) throw new \Exception("Could not parse config file: ".$file);
+  public function load( $file_or_array = null ){
+    if(is_array($file_or_array)) {
+      $loaded = $file_or_array;
+    } else {
+      $loaded = file_exists($file_or_array)?json_decode(file_get_contents($file_or_array), true):array();
+      if(is_null($loaded)) throw new \Exception("Could not parse config file: ".$file_or_array);
+    }
     $this->combined = $this->array_merge_recursive_distinct($this->combined, $loaded);
     $this->refreshCombined();
   }
 
-  public function loadLocal( $file = null ){
-    $this->local_file = $file;
-    $this->local = file_exists($file)?json_decode(file_get_contents($file), true):array();
-    if(is_null($this->local)) throw new \Exception("Could not parse config file: ".$file);
+  public function loadLocal( $file_or_array = null ){
+    if(is_array($file_or_array)) {
+      $loaded = $file_or_array;
+    } else {
+      $this->local_file = $file_or_array;
+      $this->local = file_exists($file_or_array)?json_decode(file_get_contents($file_or_array), true):array();
+      if(is_null($this->local)) throw new \Exception("Could not parse config file: ".$file_or_array);
+    }
     $this->refreshCombined();
   }
 
-  public function loadImmutable( $file = null ){
-    $loaded = file_exists($file)?json_decode(file_get_contents($file), true):array();
-    if(is_null($loaded)) throw new \Exception("Could not parse config file: ".$file);
+  public function loadImmutable( $file_or_array = null ){
+    if(is_array($file_or_array)) {
+      $loaded = $file_or_array;
+    } else {
+      $loaded = file_exists($file_or_array)?json_decode(file_get_contents($file_or_array), true):array();
+      if(is_null($loaded)) throw new \Exception("Could not parse config file: ".$file_or_array);
+    }
     $this->immutable_combined = $this->array_merge_recursive_distinct($this->immutable_combined, $loaded);
     $this->refreshCombined();
   }
@@ -75,6 +87,16 @@ class Config {
   public function get($path, $default = null){
     $value = $this->getByPath($this->all_combined, $path);
     if(!is_null($value)) return $value;
+
+    return $default;
+  }
+
+  public function getKey($path, $key, $default = null){
+    // Diferent from get() because the key itself can contain dots that will not
+    // be looked for as branches of the config array.  Useful for translation
+    // tables.  $transl->get("pt.admin","This line contains a dot. Will work anyway.");
+    $branch = $this->getByPath($this->all_combined, $path);
+    if(is_array($branch) && isset($branch[$key])) return $branch[$key];
 
     return $default;
   }
